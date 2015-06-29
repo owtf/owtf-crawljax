@@ -27,19 +27,16 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 RootDir=$1
-DIR="$ROOTDIR/lib/"
 
 VERSION=3.6
-TEMPFILE="crawljax.jar"
+TEMPFILE="crawljax.zip"
 
-if ! [ "$(ls -A $DIR)" ]; then
-    # Download jars from crawljax releases
-    wget https://github.com/crawljax/crawljax/releases/download/crawljax-${VERSION}/crawljax-web-${VERSION}-distribution.zip -O $TEMPFILE;
+# Download jars from crawljax releases
+wget https://github.com/crawljax/crawljax/releases/download/crawljax-${VERSION}/crawljax-web-${VERSION}-distribution.zip -O $TEMPFILE;
 
-    # extract the jars into lib folder
-    unzip -d $DIR $TEMPFILE;
+# extract the jars
+unzip $TEMPFILE;
 
-    # cleanup
-    rm $TEMPFILE;
-fi
+# cleanup
+rm $TEMPFILE;
 
