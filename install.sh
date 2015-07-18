@@ -35,7 +35,7 @@ TEMPFILE="crawljax.zip"
 wget https://github.com/crawljax/crawljax/releases/download/crawljax-${VERSION}/crawljax-web-${VERSION}-distribution.zip -O $TEMPFILE;
 
 # extract the jars
-unzip $TEMPFILE;
+unzip $TEMPFILE lib/;
 
 # cleanup
 rm $TEMPFILE;
