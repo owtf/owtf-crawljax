@@ -1,0 +1,17 @@
+{
+  "target": "http://owtf.github.io",
+  "browser": "firefox",
+  "clickElements": [
+    "a",
+    "button"
+  ],
+  "depth": 2,
+  "log": "crawl.log",
+  "output": "crawl_output",
+  "fillForms": true,
+  "parallelBrowsers": 2,
+  "maxStates": 100,
+  "maxCrawlTime": 0,
+  "waitAfterEvent": 500,
+  "waitAfterReload": 500
+}

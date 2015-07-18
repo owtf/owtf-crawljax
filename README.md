@@ -4,4 +4,4 @@ This integrates [Crawljax](https://github.com/crawljax/crawljax) into OWTF to ad
 
 ## Requirements
 
-You need Jython installed for this plugin to work.
+You need JRE 7 (openjdk 7) installed for this plugin to work.
