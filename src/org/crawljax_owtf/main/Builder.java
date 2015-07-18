@@ -34,27 +34,27 @@ public class Builder {
         builder.crawlRules().insertRandomDataInInputForms(false);
 
         // click these elements
-		builder.crawlRules().clickDefaultElements();
+        builder.crawlRules().clickDefaultElements();
 
         int c = conf.getClickElements().size();
 
         for(int i=0; i < c; i++) {
-		    builder.crawlRules().click(conf.getClickElements().get(i));
+            builder.crawlRules().click(conf.getClickElements().get(i));
         }
 
         builder.setMaximumStates(conf.getMaxStates());
-		builder.setMaximumDepth(conf.getDepth());
-		builder.crawlRules().clickElementsInRandomOrder(true);
+        builder.setMaximumDepth(conf.getDepth());
+        builder.crawlRules().clickElementsInRandomOrder(true);
 
         // Set timeouts
-		builder.crawlRules().waitAfterReloadUrl(conf.getWaitAfterReload(), TimeUnit.MILLISECONDS);
+        builder.crawlRules().waitAfterReloadUrl(conf.getWaitAfterReload(), TimeUnit.MILLISECONDS);
         builder.crawlRules().waitAfterEvent(conf.getWaitAfterEvent(), TimeUnit.MILLISECONDS);
 
         // use two browsers simultaneously.
         builder.setBrowserConfig(new BrowserConfiguration(BrowserType.FIREFOX, 2));
         builder.addPlugin(new CrawlOverview());
 
-		CrawljaxRunner crawljax = new CrawljaxRunner(builder.build());
-		crawljax.call();
+        CrawljaxRunner crawljax = new CrawljaxRunner(builder.build());
+        crawljax.call();
     }
 }
