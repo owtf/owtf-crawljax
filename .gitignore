@@ -1,4 +1,3 @@
-lib/*.jar
 *.jar
 *.class
 out/
