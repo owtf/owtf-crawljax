@@ -17,6 +17,11 @@ import java.util.concurrent.TimeUnit;
 public class Builder {
 
     public static void main(String[] args) throws Exception {
+        System.getProperties().put("http.proxyHost", "127.0.0.1");
+        System.getProperties().put("http.proxyPort", "8008");
+        //System.getProperties().put("http.proxyUser", "someUserName");
+        //System.getProperties().put("http.proxyPassword", "somePassword");
+
         Gson gson = new Gson();
         Config conf = new Config();
 
