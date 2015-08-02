@@ -5,7 +5,6 @@ import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.configuration.BrowserConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration.CrawljaxConfigurationBuilder;
-import com.crawljax.plugins.crawloverview.CrawlOverview;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -57,9 +56,10 @@ public class Builder {
 
         // use two browsers simultaneously.
         builder.setBrowserConfig(new BrowserConfiguration(BrowserType.FIREFOX, 2));
-        builder.addPlugin(new CrawlOverview());
+        //builder.addPlugin(new CrawlOverview());
 
         CrawljaxRunner crawljax = new CrawljaxRunner(builder.build());
         crawljax.call();
     }
 }
+
