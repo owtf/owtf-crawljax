@@ -5,10 +5,12 @@ import com.crawljax.core.CrawljaxRunner;
 import com.crawljax.core.configuration.BrowserConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration.CrawljaxConfigurationBuilder;
+import com.crawljax.core.configuration.ProxyConfiguration;
 import com.crawljax.plugins.crawloverview.CrawlOverview;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,13 +21,15 @@ import java.util.concurrent.TimeUnit;
 public class Builder {
 
     public static void main(String[] args) throws Exception {
-        System.getProperties().put("http.proxyHost", "127.0.0.1");
-        System.getProperties().put("http.proxyPort", "8008");
-
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
+
+        File outpath = new File("output/");
+
+        String config = new File("config.json").getAbsolutePath();
+
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("/home/viyat/IdeaProjects/owtf-crawljax/config.json"));
+            BufferedReader reader = new BufferedReader(new FileReader(config));
             String message = org.apache.commons.io.IOUtils.toString(reader);
             map = mapper.readValue(message, HashMap.class);
 
@@ -35,6 +39,10 @@ public class Builder {
 
         CrawljaxConfigurationBuilder builder = CrawljaxConfiguration.builderFor(map.get("target").toString());
 
+        // set proxy
+        builder.setProxyConfig(ProxyConfiguration.manualProxyOn("localhost", 8008));
+
+        // no form data
         builder.crawlRules().insertRandomDataInInputForms(false);
 
         // click these elements
@@ -46,17 +54,23 @@ public class Builder {
             builder.crawlRules().click(map.get("clickElements").toString());
         }
 
-        builder.setMaximumStates((int)map.get("maxStates"));
-        builder.setMaximumDepth((int)map.get("depth"));
+        builder.setMaximumStates((int) map.get("maxStates"));
+        builder.setMaximumDepth((int) map.get("depth"));
         builder.crawlRules().clickElementsInRandomOrder(true);
 
         // Set timeouts
         builder.crawlRules().waitAfterReloadUrl((int)map.get("waitAfterReload"), TimeUnit.MILLISECONDS);
-        builder.crawlRules().waitAfterEvent((int)map.get("waitAfterEvent"), TimeUnit.MILLISECONDS);
+        builder.crawlRules().waitAfterEvent((int) map.get("waitAfterEvent"), TimeUnit.MILLISECONDS);
+
+        // get the number of simultaneous browsers
+        int num = (int)map.get("parallelBrowsers");
 
         // use two browsers simultaneously.
-        builder.setBrowserConfig(new BrowserConfiguration(BrowserType.FIREFOX, 2));
-        builder.addPlugin(new CrawlOverview());
+        builder.setBrowserConfig(new BrowserConfiguration(BrowserType.PHANTOMJS, num));
+
+        CrawlOverview overview = new CrawlOverview();
+        builder.setOutputDirectory(outpath);
+        builder.addPlugin(overview);
 
         CrawljaxRunner crawljax = new CrawljaxRunner(builder.build());
         crawljax.call();
